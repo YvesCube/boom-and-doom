@@ -51,7 +51,7 @@
             position: relative;
         }
         
-        /* HEADER LAYOUT - GRID SYSTEM FIX */
+        /* HEADER LAYOUT */
         .header-top {
             display: flex;
             flex-direction: column;
@@ -65,7 +65,6 @@
             align-items: center;
             justify-content: center;
             gap: 15px;
-            /* Grid settings pro desktop se aplikují níže */
         }
 
         .app-logo {
@@ -83,33 +82,33 @@
             letter-spacing: 2px; 
             font-weight: 800; 
             text-shadow: 0 0 15px rgba(211, 47, 47, 0.4);
-            white-space: nowrap; /* Zabrání zalomení textu */
+            white-space: nowrap; 
         }
 
         .lang-buttons {
             display: flex;
             gap: 8px;
-            /* Grid settings pro desktop se aplikují níže */
         }
 
-        /* Desktop Layout - GRID (Robustní řešení proti překrývání) */
+        /* --- DESKTOP ÚPRAVA (Flags Higher, Title Lower) --- */
         @media (min-width: 700px) {
             .header-top {
                 display: grid;
-                /* 1fr (levo) | auto (střed) | 1fr (pravo) -> Nadpis bude perfektně uprostřed */
+                /* 1fr (levo) | auto (střed) | 1fr (pravo) */
                 grid-template-columns: 1fr auto 1fr;
-                align-items: center;
-                gap: 10px;
+                align-items: start; /* Zarovnat vše nahoru, ne na střed */
+                margin-bottom: 10px; /* Menší spodní odsazení, protože nadpis je posunutý */
             }
 
             .title-wrapper {
-                grid-column: 2; /* Prostřední sloupec */
+                grid-column: 2; 
+                margin-top: 15px; /* ODSTRČÍME NADPIS DOLŮ */
             }
 
             .lang-buttons {
-                grid-column: 3; /* Pravý sloupec */
-                justify-self: end; /* Zarovnat na konec pravého sloupce */
-                margin-top: 0;
+                grid-column: 3; 
+                justify-self: end; 
+                margin-top: -15px; /* VYTÁHNEME VLAJEČKY NAHORU (do paddingu kontejneru) */
             }
         }
 
