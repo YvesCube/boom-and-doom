@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boom & Doom</title>
+    
+    <meta name="description" content="Boom & Doom: The ultimate Rust Raid & Crafting Calculator.">
+    <meta property="og:title" content="Boom & Doom">
+    <meta property="og:description" content="Calculate your raid cost. Plan your doom.">
+    <meta property="og:type" content="website">
+
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#8a1c1c">
+    <link rel="apple-touch-icon" href="icon-192.png">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.11.0/css/flag-icons.min.css"/>
+    
+    <style>
+        :root {
+            --bg-color: #121212;
+            --panel-color: #1e1e1e;
+            --accent-color: #d32f2f; /* Agresivnější červená pro Boom & Doom */
+            --btn-color: #c62828;
+            --btn-hover: #e53935;
+            --text-color: #e0e0e0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            margin: 0;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: var(--panel-color);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.7);
+            max-width: 600px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            border-top: 4px solid var(--accent-color);
+        }
+        
+        /* Language Flags */
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .lang-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        .flag-btn {
+            background: #141414;
+            border: 2px solid #444;
+            border-radius: 50%;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+            overflow: hidden;
+            padding: 0;
+            filter: grayscale(100%);
+        }
+        .flag-btn span { font-size: 24px; line-height: 1em; }
+        .flag-btn:hover, .flag-btn.active {
+            filter: grayscale(0%);
+            border-color: var(--accent-color);
+            transform: scale(1.1);
+        }
+
+        h1 { color: var(--accent-color); margin: 0; font-size: 1.5rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 800; text-shadow: 0 0 10px rgba(211, 47, 47, 0.3);}
+        
+        /* TABS NAVIGATION */
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            background: #000;
+            border-radius: 4px;
+            padding: 5px;
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 12px;
+            background: transparent;
+            border: none;
+            color: #666;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: 0.2s;
+        }
+        .tab-btn.active {
+            background: var(--accent-color);
+            color: white;
+            box-shadow: 0 0 10px rgba(211, 47, 47, 0.4);
+        }
+        
+        /* Views */
+        .view-section { display: none; }
+        .view-section.active { display: block; }
+
+        /* Form Elements */
+        label { display: block; margin-bottom: 8px; font-weight: bold; margin-top: 15px; font-size: 0.9em; color: #aaa;}
+        input, select {
+            width: 100%;
+            padding: 12px;
+            background-color: #0a0a0a;
+            border: 1px solid #333;
+            color: white;
+            border-radius: 4px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        
+        button.calc-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--btn-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 25px;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: 0.2s;
+            box-shadow: 0 4px 0 #8c1b1b; /* 3D effect */
+        }
+        button.calc-btn:hover { background-color: var(--btn-hover); transform: translateY(1px); box-shadow: 0 3px 0 #8c1b1b; }
+        button.calc-btn:active { transform: translateY(4px); box-shadow: none; }
+        
+        /* Results */
+        .result-box {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #0a0a0a;
+            border-left: 5px solid var(--accent-color);
+            display: none;
+        }
+        
+        /* Raid Specific Table */
+        .raid-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        .raid-table th { text-align: left; color: #888; font-size: 0.8em; padding-bottom: 10px; border-bottom: 1px solid #333; }
+        .raid-table td { padding: 12px 0; border-bottom: 1px solid #222; vertical-align: middle;}
+        .raid-method-icon { width: 24px; height: 24px; vertical-align: middle; margin-right: 8px; }
+        .sulfur-cost { color: #ffca28; font-weight: bold; font-size: 0.9em; }
+        .item-count { font-size: 1.2em; font-weight: bold; color: #fff; }
+
+        .item-image { display: block; margin: 0 auto 15px auto; max-width: 100px; height: auto; }
+        .big-number { font-size: 1.5em; color: var(--accent-color); font-weight: bold; text-align: center; }
+        .section-title { color: #888; text-transform: uppercase; font-size: 0.85em; margin-top: 20px; margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 5px;}
+        
+        ul { list-style-type: none; padding: 0; }
+        ul li { background: #161616; margin-bottom: 5px; padding: 8px; border-radius: 4px; display: flex; justify-content: space-between; align-items: center;}
+        .val { color: #fff; font-weight: bold; }
+        
+        .instruction {
+            background-color: #1a1a1a;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #333;
+            line-height: 1.6;
+        }
+        .instruction span { color: #ef5350; font-weight: bold; }
+        
+        #installBtn {
+            display: none; width: 100%; padding: 10px; background-color: #333;
+            color: #fff; border: 1px solid #555; border-radius: 4px; margin-bottom: 20px;
+            cursor: pointer; text-align: center; font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <button id="installBtn">📲 Install App</button>
+
+    <div class="header-top">
+        <h1>Boom & Doom</h1>
+        <div class="lang-buttons">
+            <button class="flag-btn active" onclick="setLang('en')" id="btn-en"><span class="fi fi-us"></span></button>
+            <button class="flag-btn" onclick="setLang('cs')" id="btn-cs"><span class="fi fi-cz"></span></button>
+            <button class="flag-btn" onclick="setLang('ru')" id="btn-ru"><span class="fi fi-ru"></span></button>
+            <button class="flag-btn" onclick="setLang('zh')" id="btn-zh"><span class="fi fi-cn"></span></button>
+        </div>
+    </div>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('craft')" id="t_tabCraft">Crafting</button>
+        <button class="tab-btn" onclick="switchTab('raid')" id="t_tabRaid">Raid Calc</button>
+    </div>
+
+    <div id="view-craft" class="view-section active">
+        <label for="itemType" id="t_selectItem">Select Item</label>
+        <select id="itemType">
+            </select>
+
+        <label for="sulfur" id="t_enterSulfur">Sulfur Amount</label>
+        <input type="number" id="sulfur" placeholder="50000">
+
+        <button onclick="calculateCraft()" id="t_calculateBtn" class="calc-btn">Calculate Crafting</button>
+
+        <div id="craftResult" class="result-box">
+            <img id="resultImage" src="" alt="Item" class="item-image">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <div id="t_youCanCraft">You can craft:</div>
+                <div id="finalCount" class="big-number">0</div>
+                <div id="itemNameDisplay" style="color:#aaa;"></div>
+            </div>
+            <div class="section-title" id="t_sulfurManagement">1. Sulfur Management</div>
+            <div class="instruction">
+                <span id="t_step1">Take</span> <span id="sulfurToGP">0</span> <span id="t_sulfurRaw">Sulfur</span>.<br>
+                <span id="t_step2">Craft it into</span> <span id="gpCount">0</span> <span id="t_gp">Gunpowder</span>.
+            </div>
+            <div class="instruction" id="expInstructionBox">
+                <span id="t_step3">Keep</span> <span id="sulfurToKeep">0</span> <span id="t_sulfurRaw2">Sulfur</span> <span id="t_inInventory">raw in inventory</span>.<br>
+                <span id="t_step4">Use it to craft</span> <span id="expCount">0</span> <span id="expLabel">Explosives</span>.
+            </div>
+            <div class="section-title" id="t_otherMaterials">2. Other Materials Needed</div>
+            <ul id="materialsList"></ul>
+        </div>
+    </div>
+
+    <div id="view-raid" class="view-section">
+        <label id="t_selectTarget">Select Target to Destroy</label>
+        <select id="targetType" onchange="calculateRaid()">
+            </select>
+
+        <div id="raidResult" class="result-box" style="display:block;">
+            <div class="section-title" id="t_raidOptions">Recommended Methods</div>
+            <table class="raid-table">
+                <thead>
+                    <tr>
+                        <th id="t_method">Method</th>
+                        <th id="t_quantity">Amount</th>
+                        <th id="t_cost">Sulfur Cost</th>
+                    </tr>
+                </thead>
+                <tbody id="raidTableBody">
+                    </tbody>
+            </table>
+            <div style="text-align:center; margin-top:15px; font-size:0.8em; color:#666;">
+                * Costs are approximate.
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // --- TRANSLATIONS ---
+    const translations = {
+        en: {
+            tabCraft: "Crafting",
+            tabRaid: "Raid / Doom",
+            selectItem: "What to craft?",
+            enterSulfur: "Total Sulfur Amount",
+            calculateBtn: "Calculate Crafting",
+            youCanCraft: "You can craft:",
+            sulfurManagement: "1. Sulfur Management",
+            otherMaterials: "2. Other Materials Needed",
+            step1: "Take",
+            step2: "Cook into",
+            step3: "Keep",
+            step4: "Use for",
+            sulfurRaw: "Sulfur",
+            gp: "Gunpowder",
+            explosives: "Explosives",
+            inInventory: "raw",
+            leftover: "Leftover",
+            useForAmmo: "Directly for Ammo",
+            selectTarget: "Select Target to Destroy",
+            raidOptions: "Destruction Methods (Cheapest first)",
+            method: "Weapon",
+            quantity: "Amount",
+            cost: "Total Sulfur",
+            items: {
+                rocket: "Rocket", c4: "C4", hv: "HV Rocket", incen: "Incendiary Rocket",
+                exp556: "Explosive Ammo", satchel: "Satchel Charge", beancan: "Beancan Grenade",
+                charcoal: "Charcoal", frags: "Fragments", fuel: "LGF", pipe: "Pipe", tech: "Tech Trash", cloth: "Cloth"
+            },
+            targets: {
+                woodWall: "Wood Wall / Door",
+                stoneWall: "Stone Wall / Foundation",
+                metalWall: "Sheet Metal Wall",
+                armoredWall: "Armored Wall",
+                sheetDoor: "Sheet Metal Door",
+                garageDoor: "Garage Door",
+                armoredDoor: "Armored Door",
+                highWood: "High External Wood",
+                highStone: "High External Stone"
+            }
+        },
+        cs: {
+            tabCraft: "Výroba (Crafting)",
+            tabRaid: "Raid (Doom)",
+            selectItem: "Co chceš vyrábět?",
+            enterSulfur: "Množství sulfuru",
+            calculateBtn: "Spočítat",
+            youCanCraft: "Můžeš vyrobit:",
+            sulfurManagement: "1. Manažment Sulfuru",
+            otherMaterials: "2. Další suroviny",
+            step1: "Vezmi",
+            step2: "Udělej z něj",
+            step3: "Nech si",
+            step4: "Použij na",
+            sulfurRaw: "Sulfuru",
+            gp: "Gunpowder",
+            explosives: "Explosives",
+            inInventory: "v inventáři",
+            leftover: "Zbytek",
+            useForAmmo: "Přímo do nábojů",
+            selectTarget: "Co chceš zničit?",
+            raidOptions: "Možnosti ničení (Od nejlevnějšího)",
+            method: "Zbraň",
+            quantity: "Počet",
+            cost: "Cena Sulfuru",
+            items: {
+                rocket: "Raketa", c4: "C4", hv: "HV Raketa", incen: "Zápalná Raketa",
+                exp556: "Explozivní 5.56", satchel: "Satchel Charge", beancan: "Beancan",
+                charcoal: "Uhlí", frags: "Fragmenty", fuel: "Palivo", pipe: "Trubka", tech: "Tech Trash", cloth: "Látka"
+            },
+            targets: {
+                woodWall: "Dřevěná stěna / Dveře",
+                stoneWall: "Kamenná stěna / Základy",
+                metalWall: "Plechová stěna (Sheet)",
+                armoredWall: "Pancéřová stěna (HQM)",
+                sheetDoor: "Plechové dveře (Sheet)",
+                garageDoor: "Garážová vrata (Garage)",
+                armoredDoor: "Pancéřové dveře (Armored)",
+                highWood: "Vysoká dřevěná zeď",
+                highStone: "Vysoká kamenná zeď"
+            }
+        },
+        ru: {
+            tabCraft: "Крафт",
+            tabRaid: "Рейд (Doom)",
+            selectItem: "Что крафтим?",
+            enterSulfur: "Количество Серы",
+            calculateBtn: "Рассчитать",
+            youCanCraft: "Можно скрафтить:",
+            sulfurManagement: "1. Управление серой",
+            otherMaterials: "2. Требуемые ресурсы",
+            step1: "Возьми",
+            step2: "Скрафти",
+            step3: "Оставь",
+            step4: "Используй для",
+            sulfurRaw: "Серы",
+            gp: "Пороха",
+            explosives: "Взрывчатки",
+            inInventory: "в инвентаре",
+            leftover: "Остаток",
+            useForAmmo: "Прямо в патроны",
+            selectTarget: "Что ломаем?",
+            raidOptions: "Методы рейда (Дешевые сверху)",
+            method: "Оружие",
+            quantity: "Кол-во",
+            cost: "Сера",
+            items: {
+                rocket: "Ракета", c4: "C4", hv: "HV Ракета", incen: "Зажиг. ракета",
+                exp556: "Разрывные", satchel: "Сачель", beancan: "Бинкан",
+                charcoal: "Уголь", frags: "Фрагменты", fuel: "Топлево", pipe: "Труба", tech: "Микросхемы", cloth: "Ткань"
+            },
+            targets: {
+                woodWall: "Деревянная стена",
+                stoneWall: "Каменная стена",
+                metalWall: "Металлическая стена",
+                armoredWall: "МВК стена",
+                sheetDoor: "Металлическая дверь",
+                garageDoor: "Гаражная дверь",
+                armoredDoor: "МВК дверь",
+                highWood: "Высокая деревянная",
+                highStone: "Высокая каменная"
+            }
+        },
+        zh: {
+            tabCraft: "制作",
+            tabRaid: "拆家 (Doom)",
+            selectItem: "你想制造什么？",
+            enterSulfur: "硫磺总量",
+            calculateBtn: "计算",
+            youCanCraft: "你可以制造：",
+            sulfurManagement: "1. 硫磺分配",
+            otherMaterials: "2. 其他所需材料",
+            step1: "取出",
+            step2: "制作成",
+            step3: "保留",
+            step4: "用于制作",
+            sulfurRaw: "硫磺",
+            gp: "火药",
+            explosives: "炸药",
+            inInventory: "在背包中",
+            leftover: "剩余",
+            useForAmmo: "直接用于弹药",
+            selectTarget: "目标建筑",
+            raidOptions: "拆除方法 (最便宜优先)",
+            method: "武器",
+            quantity: "数量",
+            cost: "硫磺成本",
+            items: {
+                rocket: "火箭", c4: "C4", hv: "高速火箭", incen: "燃烧火箭",
+                exp556: "爆炸弹药", satchel: "炸药包 (Satchel)", beancan: "豆罐雷",
+                charcoal: "木炭", frags: "金属碎片", fuel: "低级燃料", pipe: "金属管", tech: "科技零件", cloth: "布"
+            },
+            targets: {
+                woodWall: "木墙 / 门",
+                stoneWall: "石墙 / 地基",
+                metalWall: "铁墙 (Sheet)",
+                armoredWall: "合金墙 (HQM)",
+                sheetDoor: "铁门",
+                garageDoor: "卷帘门 (Garage)",
+                armoredDoor: "合金门",
+                highWood: "高外木墙",
+                highStone: "高外石墙"
+            }
+        }
+    };
+
+    // --- CRAFTING RECIPES (Used for Cost Calc) ---
+    const recipes = {
+        rocket: { id: "rocket", sulfurTotal: 1400, gpPerItem: 650, explosivesPerItem: 10, rawSulfurToKeep: 100, imgUrl: "https://rustlabs.com/img/items180/ammo.rocket.basic.png", other: [{id:"charcoal", amount:1950},{id:"frags", amount:100},{id:"fuel", amount:30},{id:"pipe", amount:2}] },
+        c4: { id: "c4", sulfurTotal: 2200, gpPerItem: 1000, explosivesPerItem: 20, rawSulfurToKeep: 200, imgUrl: "https://rustlabs.com/img/items180/explosive.timed.png", other: [{id:"charcoal", amount:3000},{id:"frags", amount:200},{id:"fuel", amount:60},{id:"tech", amount:2},{id:"cloth", amount:5}] },
+        satchel: { id: "satchel", sulfurTotal: 480, gpPerItem: 240, explosivesPerItem: 0, rawSulfurToKeep: 0, imgUrl: "https://rustlabs.com/img/items180/explosive.satchel.png", other: [{id:"charcoal", amount:720}, {id:"frags", amount:80}, {id:"cloth", amount:10}, {id:"rope", amount:1}] },
+        exp556: { id: "exp556", sulfurTotal: 25, gpPerItem: 10, explosivesPerItem: 0, rawSulfurToKeep: 5, imgUrl: "https://rustlabs.com/img/items180/ammo.rifle.explosive.png", other: [] }, 
+        hv: { id: "hv", sulfurTotal: 200, gpPerItem: 100, explosivesPerItem: 0, rawSulfurToKeep: 0, imgUrl: "https://rustlabs.com/img/items180/ammo.rocket.hv.png", other: [{id:"charcoal", amount:300},{id:"pipe", amount:1}] },
+        incen: { id: "incen", sulfurTotal: 610, gpPerItem: 300, explosivesPerItem: 1, rawSulfurToKeep: 10, imgUrl: "https://rustlabs.com/img/items180/ammo.rocket.fire.png", other: [] }
+    };
+
+    // --- RAID DATA ---
+    const raidTargets = {
+        woodWall: { hp: 250, methods: { rocket: 2, satchel: 3, exp556: 49, c4: 1 } },
+        stoneWall: { hp: 500, methods: { rocket: 4, satchel: 10, exp556: 185, c4: 2 } },
+        metalWall: { hp: 1000, methods: { rocket: 8, satchel: 23, exp556: 400, c4: 4 } },
+        armoredWall: { hp: 2000, methods: { rocket: 15, satchel: 46, exp556: 799, c4: 8 } },
+        sheetDoor: { hp: 250, methods: { rocket: 1, satchel: 4, exp556: 63, c4: 1 } },
+        garageDoor: { hp: 600, methods: { rocket: 3, satchel: 9, exp556: 150, c4: 2 } },
+        armoredDoor: { hp: 1000, methods: { rocket: 5, satchel: 15, exp556: 250, c4: 3 } },
+        highWood: { hp: 500, methods: { rocket: 3, satchel: 6, exp556: 98, c4: 2 } },
+        highStone: { hp: 500, methods: { rocket: 4, satchel: 10, exp556: 185, c4: 2 } }
+    };
+
+    let currentLang = "en";
+
+    function switchTab(tab) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById('t_tab' + (tab.charAt(0).toUpperCase() + tab.slice(1))).classList.add('active');
+        document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
+        document.getElementById('view-' + tab).classList.add('active');
+    }
+
+    function setLang(lang) {
+        currentLang = lang;
+        document.querySelectorAll('.flag-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById('btn-' + lang).classList.add('active');
+        updateUI();
+        calculateCraft();
+        calculateRaid();
+    }
+
+    function updateUI() {
+        const t = translations[currentLang];
+        document.getElementById('t_tabCraft').innerText = t.tabCraft;
+        document.getElementById('t_tabRaid').innerText = t.tabRaid;
+        document.getElementById('t_selectItem').innerText = t.selectItem;
+        document.getElementById('t_enterSulfur').innerText = t.enterSulfur;
+        document.getElementById('t_calculateBtn').innerText = t.calculateBtn;
+        document.getElementById('t_youCanCraft').innerText = t.youCanCraft;
+        document.getElementById('t_sulfurManagement').innerText = t.sulfurManagement;
+        document.getElementById('t_otherMaterials').innerText = t.otherMaterials;
+        document.getElementById('t_step1').innerText = t.step1;
+        document.getElementById('t_step2').innerText = t.step2;
+        document.getElementById('t_step3').innerText = t.step3;
+        document.getElementById('t_sulfurRaw').innerText = t.sulfurRaw;
+        document.getElementById('t_sulfurRaw2').innerText = t.sulfurRaw;
+        document.getElementById('t_gp').innerText = t.gp;
+        document.getElementById('t_inInventory').innerText = t.inInventory;
+        document.getElementById('t_selectTarget').innerText = t.selectTarget;
+        document.getElementById('t_raidOptions').innerText = t.raidOptions;
+        document.getElementById('t_method').innerText = t.method;
+        document.getElementById('t_quantity').innerText = t.quantity;
+        document.getElementById('t_cost').innerText = t.cost;
+        populateCraftSelect(t);
+        populateRaidSelect(t);
+    }
+
+    function populateCraftSelect(t) {
+        const select = document.getElementById('itemType');
+        const savedVal = select.value;
+        select.innerHTML = "";
+        for (const [key, value] of Object.entries(recipes)) {
+            const opt = document.createElement('option');
+            opt.value = key;
+            opt.innerText = t.items[value.id];
+            select.appendChild(opt);
+        }
+        if (savedVal && recipes[savedVal]) select.value = savedVal;
+    }
+
+    function populateRaidSelect(t) {
+        const select = document.getElementById('targetType');
+        const savedVal = select.value;
+        select.innerHTML = "";
+        for (const [key, value] of Object.entries(raidTargets)) {
+            const opt = document.createElement('option');
+            opt.value = key;
+            opt.innerText = t.targets[key];
+            select.appendChild(opt);
+        }
+        if (savedVal && raidTargets[savedVal]) select.value = savedVal;
+    }
+
+    function calculateCraft() {
+        const sulfurInput = parseInt(document.getElementById('sulfur').value);
+        const type = document.getElementById('itemType').value;
+        const recipe = recipes[type];
+        const t = translations[currentLang];
+        if (isNaN(sulfurInput) || sulfurInput <= 0) return;
+        const maxItems = Math.floor(sulfurInput / recipe.sulfurTotal);
+        if (maxItems === 0) { alert(`Not enough Sulfur!`); return; }
+        const totalGP = maxItems * recipe.gpPerItem;
+        const sulfurForGP = totalGP * 2;
+        const totalExp = maxItems * recipe.explosivesPerItem;
+        const sulfurReserved = maxItems * recipe.rawSulfurToKeep;
+        document.getElementById('resultImage').src = recipe.imgUrl;
+        let countText = maxItems + " x " + t.items[recipe.id];
+        if(recipe.id === 'exp556') countText += ` (${maxItems} bullets)`;
+        document.getElementById('finalCount').innerText = countText;
+        const leftover = sulfurInput - (maxItems * recipe.sulfurTotal);
+        document.getElementById('itemNameDisplay').innerText = `(${t.leftover}: ${leftover})`;
+        document.getElementById('sulfurToGP').innerText = sulfurForGP.toLocaleString();
+        document.getElementById('gpCount').innerText = totalGP.toLocaleString();
+        const expBox = document.getElementById('expInstructionBox');
+        if (recipe.rawSulfurToKeep > 0) {
+            expBox.style.display = 'block';
+            document.getElementById('sulfurToKeep').innerText = sulfurReserved.toLocaleString();
+            document.getElementById('t_step4').innerText = recipe.explosivesPerItem > 0 ? t.step4 : t.useForAmmo;
+            document.getElementById('expCount').innerText = recipe.explosivesPerItem > 0 ? totalExp.toLocaleString() : "";
+            document.getElementById('expLabel').innerText = recipe.explosivesPerItem > 0 ? " " + t.explosives : "";
+        } else {
+            expBox.style.display = 'none';
+        }
+        const listEl = document.getElementById('materialsList');
+        listEl.innerHTML = "";
+        recipe.other.forEach(mat => {
+            const totalNeeded = mat.amount * maxItems;
+            const li = document.createElement('li');
+            li.innerHTML = `<span>${t.items[mat.id] || mat.id}</span> <span class="val">${totalNeeded.toLocaleString()}</span>`;
+            listEl.appendChild(li);
+        });
+        document.getElementById('craftResult').style.display = 'block';
+    }
+
+    function calculateRaid() {
+        const targetKey = document.getElementById('targetType').value;
+        const target = raidTargets[targetKey];
+        const t = translations[currentLang];
+        const tbody = document.getElementById('raidTableBody');
+        tbody.innerHTML = "";
+        let methods = [];
+        for (const [weaponKey, amount] of Object.entries(target.methods)) {
+            const recipe = recipes[weaponKey];
+            if (!recipe) continue;
+            const totalSulfur = amount * recipe.sulfurTotal;
+            methods.push({ key: weaponKey, name: t.items[weaponKey], amount: amount, cost: totalSulfur, img: recipe.imgUrl });
+        }
+        methods.sort((a, b) => a.cost - b.cost);
+        methods.forEach(m => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td><img src="${m.img}" class="raid-method-icon"> ${m.name}</td><td class="item-count">${m.amount}</td><td class="sulfur-cost">${m.cost.toLocaleString()}</td>`;
+            tbody.appendChild(tr);
+        });
+    }
+
+    // PWA Logic
+    let deferredPrompt;
+    const installBtn = document.getElementById('installBtn');
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault(); deferredPrompt = e; installBtn.style.display = 'block';
+    });
+    installBtn.addEventListener('click', async () => {
+        if (deferredPrompt) { deferredPrompt.prompt(); deferredPrompt = null; installBtn.style.display = 'none'; }
+    });
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js'));
+    }
+
+    // Init
+    updateUI();
+    calculateRaid();
+</script>
+</body>
+</html>
