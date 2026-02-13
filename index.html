@@ -51,13 +51,13 @@
             position: relative;
         }
         
-        /* HEADER LAYOUT */
+        /* HEADER LAYOUT - GRID SYSTEM FIX */
         .header-top {
             display: flex;
             flex-direction: column;
             align-items: center;
             margin-bottom: 25px;
-            position: relative;
+            gap: 15px;
         }
         
         .title-wrapper {
@@ -65,6 +65,7 @@
             align-items: center;
             justify-content: center;
             gap: 15px;
+            /* Grid settings pro desktop se aplikují níže */
         }
 
         .app-logo {
@@ -82,21 +83,33 @@
             letter-spacing: 2px; 
             font-weight: 800; 
             text-shadow: 0 0 15px rgba(211, 47, 47, 0.4);
+            white-space: nowrap; /* Zabrání zalomení textu */
         }
 
         .lang-buttons {
             display: flex;
             gap: 8px;
-            margin-top: 15px;
+            /* Grid settings pro desktop se aplikují níže */
         }
 
-        /* Desktop specific layout for header */
-        @media (min-width: 600px) {
+        /* Desktop Layout - GRID (Robustní řešení proti překrývání) */
+        @media (min-width: 700px) {
+            .header-top {
+                display: grid;
+                /* 1fr (levo) | auto (střed) | 1fr (pravo) -> Nadpis bude perfektně uprostřed */
+                grid-template-columns: 1fr auto 1fr;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .title-wrapper {
+                grid-column: 2; /* Prostřední sloupec */
+            }
+
             .lang-buttons {
-                position: absolute;
-                right: 0;
-                top: 0;
-                margin-top: 5px;
+                grid-column: 3; /* Pravý sloupec */
+                justify-self: end; /* Zarovnat na konec pravého sloupce */
+                margin-top: 0;
             }
         }
 
