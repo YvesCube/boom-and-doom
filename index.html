@@ -743,9 +743,54 @@
     installBtn.addEventListener('click', async () => {
         if (deferredPrompt) { deferredPrompt.prompt(); deferredPrompt = null; installBtn.style.display = 'none'; }
     });
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js'));
-    }
+    // --- SMART PWA UPDATE LOGIC ---
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').then(reg => {
+            
+            
+            if (reg.waiting) {
+                showUpdateNotification(reg.waiting);
+                return;
+            }
+
+            
+            reg.addEventListener('updatefound', () => {
+                const newWorker = reg.installing;
+                
+                newWorker.addEventListener('statechange', () => {
+                   
+                    if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                        showUpdateNotification(newWorker);
+                    }
+                });
+            });
+        });
+
+        
+        let refreshing;
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+            if (refreshing) return;
+            window.location.reload();
+            refreshing = true;
+        });
+    });
+}
+
+function showUpdateNotification(worker) {
+    const notification = document.getElementById('updateNotification');
+    const btn = document.getElementById('updateBtn');
+    
+    notification.style.display = 'block';
+    
+    btn.addEventListener('click', () => {
+        // Pošli zprávu do SW: "Přeskoč frontu a aktivuj se!"
+        worker.postMessage({ type: 'SKIP_WAITING' });
+        // Tlačítko zešedne, aby uživatel neklikal znovu
+        btn.disabled = true;
+        btn.innerText = "Updating...";
+    });
+}
 
     // --- INITIALIZATION ---
     const savedLang = localStorage.getItem('rust_lang');
