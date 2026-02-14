@@ -140,6 +140,58 @@
         /* FOOTER */
         .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #333; text-align: center; font-size: 0.75em; color: #666; line-height: 1.4; }
         .footer p { margin: 5px 0; }
+
+        /*  MOBILE OPTIMIZATION  */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px; /* Menší okraj od kraje displeje */
+            }
+
+            .container {
+                padding: 15px; /* Více místa uvnitř boxu */
+                width: 100%;
+                box-sizing: border-box; /* Jistota, že padding nerozbije šířku */
+            }
+
+            h1 {
+                font-size: 1.5rem; /* Menší nadpis */
+                letter-spacing: 1px;
+            }
+
+            .app-logo {
+                width: 35px; /* Menší logo */
+                height: 35px;
+            }
+
+            .header-top {
+                margin-bottom: 15px;
+                gap: 10px;
+            }
+
+            .lang-buttons {
+                margin-top: 5px;
+            }
+
+            .flag-btn {
+                width: 28px; /* Decentnější vlaječky */
+                height: 28px;
+            }
+            
+            .flag-btn span {
+                font-size: 20px;
+            }
+
+            /* Tlačítka přes celou šířku jsou na mobilu pohodlnější */
+            input, select, .btn-group {
+                font-size: 16px; /* Zabraňuje zoomování na iPhonech */
+            }
+            
+            .raid-table th, .raid-table td {
+                padding: 8px 0; /* Kompaktnější tabulka */
+                font-size: 0.9em;
+            }
+        }
+        
     </style>
 </head>
 <body>
