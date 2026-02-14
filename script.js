@@ -1,13 +1,65 @@
 // --- APP VERSION ---
-const APP_VERSION = "v2.0.0.6"; 
+const APP_VERSION = "v2.0.0.7"; 
 document.getElementById('appVersionDisplay').innerText = APP_VERSION;
 
 // --- TRANSLATIONS ---
 const translations = {
-    en: { tabCraft:"Crafting",tabRaid:"Raid",tabEco:"Eco / Special",selectItem:"What to craft?",enterSulfur:"Total Sulfur Amount",calculateBtn:"Calculate",resetBtn:"Reset",youCanCraft:"You can craft:",sulfurManagement:"1. Sulfur Management",otherMaterials:"2. Other Materials Needed",step1:"Take",step2:"Cook into",step3:"Keep",step4:"Use for",sulfurRaw:"Sulfur",gp:"Gunpowder",explosives:"Explosives",inInventory:"raw",leftover:"Leftover",useForAmmo:"Directly for Ammo",selectTarget:"Select Target to Destroy",selectEcoTarget:"Select Special Target",targetCountLabel:"Number of Targets",raidOptions:"Destruction Methods",ecoOptions:"Destruction Methods (Off-Meta)",method:"Weapon",ecoMethod:"Tool / Weapon",quantity:"Amount",ecoQuantity:"Amount",cost:"Total Cost",ecoCost:"Materials",items:{rocket:"Rocket",c4:"C4",hv:"HV Rocket",incen:"Incendiary Rocket",exp556:"Explosive Ammo",satchel:"Satchel Charge",beancan:"Beancan Grenade",molotov:"Molotov",hatchet:"Hatchet",pickaxe:"Pickaxe",spear:"Wooden Spear",sword:"Salvaged Sword",jackhammer:"Jackhammer",fireArrow:"Fire Arrow",charcoal:"Charcoal",frags:"Fragments",fuel:"LGF",pipe:"Pipe",tech:"Tech Trash",cloth:"Cloth",wood:"Wood"},targets:{woodDoor:"Wooden Door",woodDouble:"Wood Double Door",woodWall:"Wood Wall",stoneWall:"Stone Wall / Foundation",metalWall:"Sheet Metal Wall",armoredWall:"Armored Wall",sheetDoor:"Sheet Metal Door",sheetDouble:"Sheet Metal Double Door",garageDoor:"Garage Door",armoredDoor:"Armored Door",armoredDouble:"Armored Double Door",highWood:"High External Wood",highStone:"High External Stone",turret:"Auto Turret",sam:"SAM Site",tc:"Tool Cupboard (TC)",softWood:"Wood Wall (Soft Side)",softStone:"Stone Wall (Soft Side)",mini:"Minicopter",scrappy:"Scrap Heli",camper:"Camper Module"} },
-    cs: { tabCraft:"Výroba",tabRaid:"Raid",tabEco:"Eco / Special",selectItem:"Co chceš vyrábět?",enterSulfur:"Množství sulfuru",calculateBtn:"Spočítat",resetBtn:"Reset",youCanCraft:"Můžeš vyrobit:",sulfurManagement:"1. Manažment Sulfuru",otherMaterials:"2. Další suroviny",step1:"Vezmi",step2:"Udělej z něj",step3:"Nech si",step4:"Použij na",sulfurRaw:"Sulfuru",gp:"Gunpowder",explosives:"Explosives",inInventory:"v inventáři",leftover:"Zbytek",useForAmmo:"Přímo do nábojů",selectTarget:"Co chceš zničit?",selectEcoTarget:"Co chceš zničit? (Off-meta)",targetCountLabel:"Počet cílů",raidOptions:"Možnosti ničení",ecoOptions:"Možnosti ničení (Off-Meta)",method:"Zbraň",ecoMethod:"Nástroj / Zbraň",quantity:"Počet",ecoQuantity:"Počet",cost:"Cena",ecoCost:"Materiál",items:{rocket:"Raketa",c4:"C4",hv:"HV Raketa",incen:"Zápalná Raketa",exp556:"Explozivní 5.56",satchel:"Satchel Charge",beancan:"Beancan",molotov:"Molotov",hatchet:"Sekera (Hatchet)",pickaxe:"Krumpáč (Pickaxe)",spear:"Dřevěný oštěp",sword:"Salvaged Sword",jackhammer:"Jackhammer",fireArrow:"Zápalný šíp",charcoal:"Uhlí",frags:"Fragmenty",fuel:"Palivo",pipe:"Trubka",tech:"Tech Trash",cloth:"Látka",wood:"Dřevo"},targets:{woodDoor:"Dřevěné Dveře",woodDouble:"Dřevěné Dvojité Dveře",woodWall:"Dřevěná stěna",stoneWall:"Kamenná stěna / Základy",metalWall:"Plechová stěna (Sheet)",armoredWall:"Pancéřová stěna (HQM)",sheetDoor:"Plechové dveře (Sheet)",sheetDouble:"Plechové Dvojité Dveře",garageDoor:"Garážová vrata (Garage)",armoredDoor:"Pancéřové dveře (Armored)",armoredDouble:"Pancéřové Dvojité Dveře",highWood:"Vysoká dřevěná zeď",highStone:"Vysoká kamenná zeď",turret:"Auto Turret",sam:"SAM Site",tc:"Tool Cupboard (TC)",softWood:"Dřevěná zeď (Měkká strana)",softStone:"Kamenná zeď (Měkká strana)",mini:"Minicopter",scrappy:"Scrap Heli",camper:"Camper Module"} },
-    ru: { tabCraft:"Крафт",tabRaid:"Рейд",tabEco:"Эко / Спец",selectItem:"Что крафтим?",enterSulfur:"Количество Серы",calculateBtn:"Рассчитать",resetBtn:"Сброс",youCanCraft:"Можно скрафтить:",sulfurManagement:"1. Управление серой",otherMaterials:"2. Требуемые ресурсы",step1:"Возьми",step2:"Скрафти",step3:"Оставь",step4:"Используй для",sulfurRaw:"Серы",gp:"Пороха",explosives:"Взрывчатки",inInventory:"в инвентаре",leftover:"Остаток",useForAmmo:"Прямо в патроны",selectTarget:"Что ломаем?",selectEcoTarget:"Спец. цели",targetCountLabel:"Количество целей",raidOptions:"Методы рейда",ecoOptions:"Эко Рейд",method:"Оружие",ecoMethod:"Инструмент",quantity:"Кол-во",ecoQuantity:"Кол-во",cost:"Стоимость",ecoCost:"Материалы",items:{rocket:"Ракета",c4:"C4",hv:"HV Ракета",incen:"Зажиг. ракета",exp556:"Разрывные",satchel:"Сачель",beancan:"Бинкан",molotov:"Молотов",hatchet:"Топор",pickaxe:"Кирка",spear:"Копье",sword:"Меч",jackhammer:"Отбойник",fireArrow:"Огненная стрела",charcoal:"Уголь",frags:"Фрагменты",fuel:"Топлево",pipe:"Труба",tech:"Микросхемы",cloth:"Ткань",wood:"Дерево"},targets:{woodDoor:"Деревянная дверь",woodDouble:"Деревянная двойная",woodWall:"Деревянная стена",stoneWall:"Каменная стена",metalWall:"Металлическая стена",armoredWall:"МВК стена",sheetDoor:"Металлическая дверь",sheetDouble:"Металлическая двойная",garageDoor:"Гаражная дверь",armoredDoor:"МВК дверь",armoredDouble:"МВК двойная",highWood:"Высокая деревянная",highStone:"Высокая каменная",turret:"Турель",sam:"ПВО (SAM)",tc:"Шкаф (TC)",softWood:"Дерево (Soft Side)",softStone:"Камень (Soft Side)",mini:"Коптер",scrappy:"Корова",camper:"Кемпер"} },
-    zh: { tabCraft:"制作",tabRaid:"拆家",tabEco:"环保 / 特殊",selectItem:"你想制造什么？",enterSulfur:"硫磺总量",calculateBtn:"计算",resetBtn:"重置",youCanCraft:"你可以制造：",sulfurManagement:"1. 硫磺分配",otherMaterials:"2. 其他所需材料",step1:"取出",step2:"制作成",step3:"保留",step4:"用于制作",sulfurRaw:"硫磺",gp:"火药",explosives:"炸药",inInventory:"在背包中",leftover:"剩余",useForAmmo:"直接用于弹药",selectTarget:"目标建筑",selectEcoTarget:"特殊目标",targetCountLabel:"目标数量",raidOptions:"拆除方法",ecoOptions:"环保拆家",method:"武器",ecoMethod:"工具",quantity:"数量",ecoQuantity:"数量",cost:"成本",ecoCost:"材料",items:{rocket:"火箭",c4:"C4",hv:"高速火箭",incen:"燃烧火箭",exp556:"爆炸弹药",satchel:"炸药包",beancan:"豆罐雷",molotov:"燃烧瓶",hatchet:"斧头",pickaxe:"稿子",spear:"木矛",sword:"大砍刀",jackhammer:"电钻",fireArrow:"火箭",charcoal:"木炭",frags:"金属碎片",fuel:"低级燃料",pipe:"金属管",tech:"科技零件",cloth:"布",wood:"木头"},targets:{woodDoor:"木门",woodDouble:"双扇木门",woodWall:"木墙",stoneWall:"石墙",metalWall:"铁墙",armoredWall:"合金墙",sheetDoor:"铁门",sheetDouble:"双扇铁门",garageDoor:"卷帘门",armoredDoor:"合金门",armoredDouble:"双扇合金门",highWood:"高外木墙",highStone:"高外石墙",turret:"自动炮塔",sam:"防空导弹",tc:"领地柜 (TC)",softWood:"木墙 (软面)",softStone:"石墙 (软面)",mini:"直升机",scrappy:"废料直升机",camper:"房车模块"} }
+    en: { 
+        tabCraft:"Crafting", tabRaid:"Raid", tabEco:"Eco / Special",
+        selectItem:"What to craft?", enterSulfur:"Total Sulfur Amount", calculateBtn:"Calculate", resetBtn:"Reset",
+        youCanCraft:"You can craft:", sulfurManagement:"1. Sulfur Management", otherMaterials:"2. Other Materials Needed",
+        step1:"Take", step2:"Cook into", step3:"Keep", step4:"Use for",
+        sulfurRaw:"Sulfur", gp:"Gunpowder", explosives:"Explosives", inInventory:"raw", leftover:"Leftover", useForAmmo:"Directly for Ammo",
+        selectTarget:"Select Target to Destroy", selectEcoTarget:"Select Special Target", targetCountLabel:"Number of Targets",
+        raidOptions:"Destruction Methods", ecoOptions:"Destruction Methods (Off-Meta)",
+        method:"Weapon", ecoMethod:"Tool / Weapon", quantity:"Amount", ecoQuantity:"Amount", cost:"Total Cost", ecoCost:"Materials",
+        updateText: "New version available!", updateBtnText: "Update Now",
+        errNoSulfur: "Not enough Sulfur!", errEnterValue: "Please enter a valid amount!",
+        items: { rocket:"Rocket",c4:"C4",hv:"HV Rocket",incen:"Incendiary Rocket",exp556:"Explosive Ammo",satchel:"Satchel Charge",beancan:"Beancan Grenade",molotov:"Molotov",hatchet:"Hatchet",pickaxe:"Pickaxe",spear:"Wooden Spear",sword:"Salvaged Sword",jackhammer:"Jackhammer",fireArrow:"Fire Arrow",charcoal:"Charcoal",frags:"Fragments",fuel:"LGF",pipe:"Pipe",tech:"Tech Trash",cloth:"Cloth",wood:"Wood" },
+        targets: { woodDoor:"Wooden Door",woodDouble:"Wood Double Door",woodWall:"Wood Wall",stoneWall:"Stone Wall / Foundation",metalWall:"Sheet Metal Wall",armoredWall:"Armored Wall",sheetDoor:"Sheet Metal Door",sheetDouble:"Sheet Metal Double Door",garageDoor:"Garage Door",armoredDoor:"Armored Door",armoredDouble:"Armored Double Door",highWood:"High External Wood",highStone:"High External Stone",turret:"Auto Turret",sam:"SAM Site",tc:"Tool Cupboard (TC)",softWood:"Wood Wall (Soft Side)",softStone:"Stone Wall (Soft Side)",mini:"Minicopter",scrappy:"Scrap Heli",camper:"Camper Module" }
+    },
+    cs: { 
+        tabCraft:"Výroba", tabRaid:"Raid", tabEco:"Eco / Special",
+        selectItem:"Co chceš vyrábět?", enterSulfur:"Množství sulfuru", calculateBtn:"Spočítat", resetBtn:"Reset",
+        youCanCraft:"Můžeš vyrobit:", sulfurManagement:"1. Manažment Sulfuru", otherMaterials:"2. Další suroviny",
+        step1:"Vezmi", step2:"Udělej z něj", step3:"Nech si", step4:"Použij na",
+        sulfurRaw:"Sulfuru", gp:"Gunpowder", explosives:"Explosives", inInventory:"v inventáři", leftover:"Zbytek", useForAmmo:"Přímo do nábojů",
+        selectTarget:"Co chceš zničit?", selectEcoTarget:"Co chceš zničit? (Off-meta)", targetCountLabel:"Počet cílů",
+        raidOptions:"Možnosti ničení", ecoOptions:"Možnosti ničení (Off-Meta)",
+        method:"Zbraň", ecoMethod:"Nástroj / Zbraň", quantity:"Počet", ecoQuantity:"Počet", cost:"Cena", ecoCost:"Materiál",
+        updateText: "Nová verze k dispozici!", updateBtnText: "Aktualizovat",
+        errNoSulfur: "Nedostatek sulfuru!", errEnterValue: "Zadej platné množství!",
+        items: { rocket:"Raketa",c4:"C4",hv:"HV Raketa",incen:"Zápalná Raketa",exp556:"Explozivní 5.56",satchel:"Satchel Charge",beancan:"Beancan",molotov:"Molotov",hatchet:"Sekera (Hatchet)",pickaxe:"Krumpáč (Pickaxe)",spear:"Dřevěný oštěp",sword:"Salvaged Sword",jackhammer:"Jackhammer",fireArrow:"Zápalný šíp",charcoal:"Uhlí",frags:"Fragmenty",fuel:"Palivo",pipe:"Trubka",tech:"Tech Trash",cloth:"Látka",wood:"Dřevo" },
+        targets: { woodDoor:"Dřevěné Dveře",woodDouble:"Dřevěné Dvojité Dveře",woodWall:"Dřevěná stěna",stoneWall:"Kamenná stěna / Základy",metalWall:"Plechová stěna (Sheet)",armoredWall:"Pancéřová stěna (HQM)",sheetDoor:"Plechové dveře (Sheet)",sheetDouble:"Plechové Dvojité Dveře",garageDoor:"Garážová vrata (Garage)",armoredDoor:"Pancéřové dveře (Armored)",armoredDouble:"Pancéřové Dvojité Dveře",highWood:"Vysoká dřevěná zeď",highStone:"Vysoká kamenná zeď",turret:"Auto Turret",sam:"SAM Site",tc:"Tool Cupboard (TC)",softWood:"Dřevěná zeď (Měkká strana)",softStone:"Kamenná zeď (Měkká strana)",mini:"Minicopter",scrappy:"Scrap Heli",camper:"Camper Module" }
+    },
+    ru: { 
+        tabCraft:"Крафт", tabRaid:"Рейд", tabEco:"Эко / Спец",
+        selectItem:"Что крафтим?", enterSulfur:"Количество Серы", calculateBtn:"Рассчитать", resetBtn:"Сброс",
+        youCanCraft:"Можно скрафтить:", sulfurManagement:"1. Управление серой", otherMaterials:"2. Требуемые ресурсы",
+        step1:"Возьми", step2:"Скрафти", step3:"Оставь", step4:"Используй для",
+        sulfurRaw:"Серы", gp:"Пороха", explosives:"Взрывчатки", inInventory:"в инвентаре", leftover:"Остаток", useForAmmo:"Прямо в патроны",
+        selectTarget:"Что ломаем?", selectEcoTarget:"Спец. цели", targetCountLabel:"Количество целей",
+        raidOptions:"Методы рейда", ecoOptions:"Эко Рейд",
+        method:"Оружие", ecoMethod:"Инструмент", quantity:"Кол-во", ecoQuantity:"Кол-во", cost:"Стоимость", ecoCost:"Материалы",
+        updateText: "Доступна новая версия!", updateBtnText: "Обновить",
+        errNoSulfur: "Недостаточно серы!", errEnterValue: "Введите корректное значение!",
+        items: { rocket:"Ракета",c4:"C4",hv:"HV Ракета",incen:"Зажиг. ракета",exp556:"Разрывные",satchel:"Сачель",beancan:"Бинкан",molotov:"Молотов",hatchet:"Топор",pickaxe:"Кирка",spear:"Копье",sword:"Меч",jackhammer:"Отбойник",fireArrow:"Огненная стрела",charcoal:"Уголь",frags:"Фрагменты",fuel:"Топлево",pipe:"Труба",tech:"Микросхемы",cloth:"Ткань",wood:"Дерево" },
+        targets: { woodDoor:"Деревянная дверь",woodDouble:"Деревянная двойная",woodWall:"Деревянная стена",stoneWall:"Каменная стена",metalWall:"Металлическая стена",armoredWall:"МВК стена",sheetDoor:"Металлическая дверь",sheetDouble:"Металлическая двойная",garageDoor:"Гаражная дверь",armoredDoor:"МВК дверь",armoredDouble:"МВК двойная",highWood:"Высокая деревянная",highStone:"Высокая каменная",turret:"Турель",sam:"ПВО (SAM)",tc:"Шкаф (TC)",softWood:"Дерево (Soft Side)",softStone:"Камень (Soft Side)",mini:"Коптер",scrappy:"Корова",camper:"Кемпер" }
+    },
+    zh: { 
+        tabCraft:"制作", tabRaid:"拆家", tabEco:"环保 / 特殊",
+        selectItem:"你想制造什么？", enterSulfur:"硫磺总量", calculateBtn:"计算", resetBtn:"重置",
+        youCanCraft:"你可以制造：", sulfurManagement:"1. 硫磺分配", otherMaterials:"2. 其他所需材料",
+        step1:"取出", step2:"制作成", step3:"保留", step4:"用于制作",
+        sulfurRaw:"硫磺", gp:"火药", explosives:"炸药", inInventory:"在背包中", leftover:"剩余", useForAmmo:"直接用于弹药",
+        selectTarget:"目标建筑", selectEcoTarget:"特殊目标", targetCountLabel:"目标数量",
+        raidOptions:"拆除方法", ecoOptions:"环保拆家",
+        method:"武器", ecoMethod:"工具", quantity:"数量", ecoQuantity:"数量", cost:"成本", ecoCost:"材料",
+        updateText: "发现新版本!", updateBtnText: "立即更新",
+        errNoSulfur: "硫磺不足!", errEnterValue: "请输入有效数值!",
+        items: { rocket:"火箭",c4:"C4",hv:"高速火箭",incen:"燃烧火箭",exp556:"爆炸弹药",satchel:"炸药包",beancan:"豆罐雷",molotov:"燃烧瓶",hatchet:"斧头",pickaxe:"稿子",spear:"木矛",sword:"大砍刀",jackhammer:"电钻",fireArrow:"火箭",charcoal:"木炭",frags:"金属碎片",fuel:"低级燃料",pipe:"金属管",tech:"科技零件",cloth:"布",wood:"木头" },
+        targets: { woodDoor:"木门",woodDouble:"双扇木门",woodWall:"木墙",stoneWall:"石墙",metalWall:"铁墙",armoredWall:"合金墙",sheetDoor:"铁门",sheetDouble:"双扇铁门",garageDoor:"卷帘门",armoredDoor:"合金门",armoredDouble:"双扇合金门",highWood:"高外木墙",highStone:"高外石墙",turret:"自动炮塔",sam:"防空导弹",tc:"领地柜 (TC)",softWood:"木墙 (软面)",softStone:"石墙 (软面)",mini:"直升机",scrappy:"废料直升机",camper:"房车模块" }
+    }
 };
 
 // --- DATA ---
@@ -69,6 +121,18 @@ function setLang(lang) {
     if(document.getElementById('view-eco').classList.contains('active')) calculateEco();
 }
 
+function showAlert(messageKey) {
+    const t = translations[currentLang];
+    const modal = document.getElementById('customModal');
+    const msg = document.getElementById('modalMessage');
+    msg.innerText = t[messageKey] || messageKey;
+    modal.style.display = 'flex';
+}
+
+function closeModal() {
+    document.getElementById('customModal').style.display = 'none';
+}
+
 function switchTab(tab) {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.getElementById('t_tab' + (tab.charAt(0).toUpperCase() + tab.slice(1))).classList.add('active');
@@ -106,6 +170,11 @@ function updateUI() {
     document.getElementById('t_ecoMethod').innerText = t.ecoMethod;
     document.getElementById('t_ecoQuantity').innerText = t.ecoQuantity;
     document.getElementById('t_ecoCost').innerText = t.ecoCost;
+    
+    // Update labels in the hidden Update Notification toast
+    document.getElementById('t_updateText').innerText = t.updateText;
+    document.getElementById('updateBtn').innerText = t.updateBtnText;
+
     populateSelects(t);
 }
 
@@ -171,21 +240,33 @@ function calculateCraft() {
     const type = document.getElementById('itemType').value;
     const recipe = recipes[type];
     const t = translations[currentLang];
-    if (isNaN(sulfurInput) || sulfurInput <= 0 || !recipe || recipe.sulfurTotal === 0) return;
+    
+    if (isNaN(sulfurInput) || sulfurInput <= 0) {
+        if (document.activeElement.id === 'sulfur' || document.getElementById('craftResult').style.display === 'block') {
+             showAlert('errEnterValue');
+        }
+        return;
+    }
+
     const maxItems = Math.floor(sulfurInput / recipe.sulfurTotal);
-    if (maxItems === 0) { alert(`Not enough Sulfur!`); return; }
+    if (maxItems === 0) { showAlert('errNoSulfur'); return; }
+    
     const totalGP = maxItems * recipe.gpPerItem;
     const sulfurForGP = totalGP * 2;
     const totalExp = maxItems * recipe.explosivesPerItem;
     const sulfurReserved = maxItems * recipe.rawSulfurToKeep;
+    
     document.getElementById('resultImage').src = recipe.imgUrl;
     let countText = maxItems + " x " + (t.items[recipe.id] || recipe.id);
-    if(recipe.id === 'exp556') countText += ` (${maxItems * 2} bullets)`;
+    if(recipe.id === 'exp556') countText += ` (${maxItems * 2} bullets)`; 
+    
     document.getElementById('finalCount').innerText = countText;
     const leftover = sulfurInput - (maxItems * recipe.sulfurTotal);
     document.getElementById('itemNameDisplay').innerText = `(${t.leftover}: ${leftover})`;
+    
     document.getElementById('sulfurToGP').innerText = sulfurForGP.toLocaleString();
     document.getElementById('gpCount').innerText = totalGP.toLocaleString();
+    
     const expBox = document.getElementById('expInstructionBox');
     if (recipe.rawSulfurToKeep > 0) {
         expBox.style.display = 'block';
@@ -194,6 +275,7 @@ function calculateCraft() {
         document.getElementById('expCount').innerText = recipe.explosivesPerItem > 0 ? totalExp.toLocaleString() : "";
         document.getElementById('expLabel').innerText = recipe.explosivesPerItem > 0 ? " " + t.explosives : "";
     } else { expBox.style.display = 'none'; }
+    
     const listEl = document.getElementById('materialsList');
     listEl.innerHTML = "";
     if(recipe.other) {
@@ -277,7 +359,7 @@ function calculateEco() {
     });
 }
 
-// Service Worker Registration & Update Logic
+// --- SW UPDATE LOGIC ---
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js').then(reg => {
@@ -311,6 +393,6 @@ function showUpdateNotification(worker) {
     });
 }
 
-// INIT
+// --- INIT ---
 const savedLang = localStorage.getItem('rust_lang');
 setLang(savedLang || 'en');
