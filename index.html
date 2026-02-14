@@ -90,25 +90,22 @@
             gap: 8px;
         }
 
-        /* --- DESKTOP ÚPRAVA (Flags Higher, Title Lower) --- */
+        /* --- DESKTOP GRID LAYOUT --- */
         @media (min-width: 700px) {
             .header-top {
                 display: grid;
-                /* 1fr (levo) | auto (střed) | 1fr (pravo) */
                 grid-template-columns: 1fr auto 1fr;
-                align-items: start; /* Zarovnat vše nahoru, ne na střed */
-                margin-bottom: 10px; /* Menší spodní odsazení, protože nadpis je posunutý */
+                align-items: start;
+                margin-bottom: 10px;
             }
-
             .title-wrapper {
                 grid-column: 2; 
-                margin-top: 15px; /* ODSTRČÍME NADPIS DOLŮ */
+                margin-top: 15px;
             }
-
             .lang-buttons {
                 grid-column: 3; 
                 justify-self: end; 
-                margin-top: -15px; /* VYTÁHNEME VLAJEČKY NAHORU (do paddingu kontejneru) */
+                margin-top: -15px;
             }
         }
 
@@ -270,7 +267,6 @@
             cursor: pointer; text-align: center; font-size: 14px;
         }
         
-        /* Hide Install button strictly on screens wider than 768px (Tablets/PC) */
         @media (min-width: 768px) {
             #installBtn { display: none !important; }
         }
@@ -342,6 +338,9 @@
         <input type="number" id="targetCount" value="1" min="1" oninput="calculateRaid()">
 
         <div id="raidResult" class="result-box" style="display:block;">
+            
+            <img id="raidTargetImage" src="" alt="Target" class="item-image" style="display:none;">
+
             <div class="section-title" id="t_raidOptions">Recommended Methods</div>
             <table class="raid-table">
                 <thead>
@@ -540,6 +539,8 @@
     };
 
     // --- CRAFTING RECIPES ---
+    // Poznámka: imgUrl jsou online odkazy. Pokud chceš offline verzi, 
+    // stáhni si obrázky do složky img/ a přepiš cesty (např. "img/rocket.png").
     const recipes = {
         rocket: { id: "rocket", sulfurTotal: 1400, gpPerItem: 650, explosivesPerItem: 10, rawSulfurToKeep: 100, imgUrl: "https://rustlabs.com/img/items180/ammo.rocket.basic.png", other: [{id:"charcoal", amount:1950},{id:"frags", amount:100},{id:"fuel", amount:30},{id:"pipe", amount:2}] },
         c4: { id: "c4", sulfurTotal: 2200, gpPerItem: 1000, explosivesPerItem: 20, rawSulfurToKeep: 200, imgUrl: "https://rustlabs.com/img/items180/explosive.timed.png", other: [{id:"charcoal", amount:3000},{id:"frags", amount:200},{id:"fuel", amount:60},{id:"tech", amount:2},{id:"cloth", amount:5}] },
@@ -547,20 +548,21 @@
         exp556: { id: "exp556", sulfurTotal: 25, gpPerItem: 10, explosivesPerItem: 0, rawSulfurToKeep: 5, imgUrl: "https://rustlabs.com/img/items180/ammo.rifle.explosive.png", other: [] }, 
         hv: { id: "hv", sulfurTotal: 200, gpPerItem: 100, explosivesPerItem: 0, rawSulfurToKeep: 0, imgUrl: "https://rustlabs.com/img/items180/ammo.rocket.hv.png", other: [{id:"charcoal", amount:300},{id:"pipe", amount:1}] },
         incen: { id: "incen", sulfurTotal: 610, gpPerItem: 300, explosivesPerItem: 1, rawSulfurToKeep: 10, imgUrl: "https://rustlabs.com/img/items180/ammo.rocket.fire.png", other: [] },
-        beancan: { id: "beancan", sulfurTotal: 120, gpPerItem: 60, explosivesPerItem: 0, rawSulfurToKeep: 0, imgUrl: "https://rustlabs.com/img/items180/grenade.beancan.png", other: [] } // Added beancan for raid display
+        beancan: { id: "beancan", sulfurTotal: 120, gpPerItem: 60, explosivesPerItem: 0, rawSulfurToKeep: 0, imgUrl: "https://rustlabs.com/img/items180/grenade.beancan.png", other: [] }
     };
 
-    // --- RAID DATA ---
+    // --- RAID DATA (Updated with Images) ---
+    // Pro offline použití stáhni obrázky do složky img/ a změň cesty.
     const raidTargets = {
-        woodWall: { hp: 250, methods: { rocket: 2, satchel: 3, exp556: 49, c4: 1 } },
-        stoneWall: { hp: 500, methods: { rocket: 4, satchel: 10, exp556: 185, c4: 2 } },
-        metalWall: { hp: 1000, methods: { rocket: 8, satchel: 23, exp556: 400, c4: 4 } },
-        armoredWall: { hp: 2000, methods: { rocket: 15, satchel: 46, exp556: 799, c4: 8 } },
-        sheetDoor: { hp: 250, methods: { rocket: 1, satchel: 4, exp556: 63, c4: 1 } },
-        garageDoor: { hp: 600, methods: { rocket: 3, satchel: 9, exp556: 150, c4: 2 } },
-        armoredDoor: { hp: 1000, methods: { rocket: 5, satchel: 15, exp556: 250, c4: 3 } },
-        highWood: { hp: 500, methods: { rocket: 3, satchel: 6, exp556: 98, c4: 2 } },
-        highStone: { hp: 500, methods: { rocket: 4, satchel: 10, exp556: 185, c4: 2 } }
+        woodWall: { hp: 250, imgUrl: "https://rustlabs.com/img/items180/wood.png", methods: { rocket: 2, satchel: 3, exp556: 49, c4: 1 } },
+        stoneWall: { hp: 500, imgUrl: "https://rustlabs.com/img/items180/stones.png", methods: { rocket: 4, satchel: 10, exp556: 185, c4: 2 } },
+        metalWall: { hp: 1000, imgUrl: "https://rustlabs.com/img/items180/metal.fragments.png", methods: { rocket: 8, satchel: 23, exp556: 400, c4: 4 } },
+        armoredWall: { hp: 2000, imgUrl: "https://rustlabs.com/img/items180/metal.refined.png", methods: { rocket: 15, satchel: 46, exp556: 799, c4: 8 } },
+        sheetDoor: { hp: 250, imgUrl: "https://rustlabs.com/img/items180/door.hinged.metal.png", methods: { rocket: 1, satchel: 4, exp556: 63, c4: 1 } },
+        garageDoor: { hp: 600, imgUrl: "https://rustlabs.com/img/items180/wall.frame.garagedoor.png", methods: { rocket: 3, satchel: 9, exp556: 150, c4: 2 } },
+        armoredDoor: { hp: 1000, imgUrl: "https://rustlabs.com/img/items180/door.hinged.toptier.png", methods: { rocket: 5, satchel: 15, exp556: 250, c4: 3 } },
+        highWood: { hp: 500, imgUrl: "https://rustlabs.com/img/items180/wall.external.high.wood.png", methods: { rocket: 3, satchel: 6, exp556: 98, c4: 2 } },
+        highStone: { hp: 500, imgUrl: "https://rustlabs.com/img/items180/wall.external.high.stone.png", methods: { rocket: 4, satchel: 10, exp556: 185, c4: 2 } }
     };
 
     let currentLang = "en";
@@ -574,6 +576,10 @@
 
     function setLang(lang) {
         currentLang = lang;
+        
+        // Save to LocalStorage (Persist language)
+        localStorage.setItem('rust_lang', lang);
+
         document.querySelectorAll('.flag-btn').forEach(btn => btn.classList.remove('active'));
         document.getElementById('btn-' + lang).classList.add('active');
         updateUI();
@@ -614,7 +620,7 @@
         const savedVal = select.value;
         select.innerHTML = "";
         for (const [key, value] of Object.entries(recipes)) {
-            if(key === 'beancan') continue; // Hide beancan from craft select if desired, or keep it
+            if(key === 'beancan') continue;
             const opt = document.createElement('option');
             opt.value = key;
             opt.innerText = t.items[value.id];
@@ -685,10 +691,20 @@
     function calculateRaid() {
         const targetKey = document.getElementById('targetType').value;
         const countInput = document.getElementById('targetCount').value;
-        const count = Math.max(1, parseInt(countInput) || 1); // Min 1
+        const count = Math.max(1, parseInt(countInput) || 1);
 
         const target = raidTargets[targetKey];
         const t = translations[currentLang];
+        
+        // Show Image
+        const imgEl = document.getElementById('raidTargetImage');
+        if(target.imgUrl) {
+            imgEl.src = target.imgUrl;
+            imgEl.style.display = 'block';
+        } else {
+            imgEl.style.display = 'none';
+        }
+
         const tbody = document.getElementById('raidTableBody');
         tbody.innerHTML = "";
         let methods = [];
@@ -731,9 +747,15 @@
         window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js'));
     }
 
-    // Init
-    updateUI();
-    calculateRaid();
+    // --- INITIALIZATION ---
+    // Load saved language or default to 'en'
+    const savedLang = localStorage.getItem('rust_lang');
+    if (savedLang) {
+        setLang(savedLang);
+    } else {
+        setLang('en');
+    }
+
 </script>
 </body>
 </html>
