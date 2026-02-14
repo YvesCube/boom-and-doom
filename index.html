@@ -33,6 +33,17 @@
             --scrap: #a8a39d;
         }
 
+        /* --- HIDE SCROLLBAR (BUT KEEP SCROLLING) --- */
+        /* For Chrome, Safari, Edge, Opera, Android */
+        body::-webkit-scrollbar {
+            display: none;
+        }
+        /* For Firefox, IE, Edge */
+        body {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
@@ -257,7 +268,7 @@
 
 <script>
     // --- APP VERSION (Change this manually when you update sw.js) ---
-    const APP_VERSION = "v2.0.0.2"; 
+    const APP_VERSION = "v2.0.0.3"; 
     document.getElementById('appVersionDisplay').innerText = APP_VERSION;
 
     // --- TRANSLATIONS ---
