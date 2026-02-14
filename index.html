@@ -2,7 +2,7 @@
 <html lang="cs">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Boom & Doom</title>
     
     <meta name="description" content="Boom & Doom: Rust Raid & Crafting Calculator. Eco Raids, Tech Tree costs.">
@@ -33,15 +33,19 @@
             --scrap: #a8a39d;
         }
 
-        /* --- HIDE SCROLLBAR (BUT KEEP SCROLLING) --- */
-        /* For Chrome, Safari, Edge, Opera, Android */
-        body::-webkit-scrollbar {
-            display: none;
+        /* --- AGRESIVNÍ SKRYTÍ SCROLLBARU (FIX PRO MOBILY) --- */
+        html, body {
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE a Edge */
+            overflow-x: hidden; /* Zabrání posunu do stran */
         }
-        /* For Firefox, IE, Edge */
-        body {
-            -ms-overflow-style: none;  /* IE and Edge */
-            scrollbar-width: none;  /* Firefox */
+        
+        /* Skryje scrollbar pro VŠECHNY elementy na Webkit prohlížečích (Chrome, Safari, Android) */
+        ::-webkit-scrollbar {
+            width: 0px !important;
+            height: 0px !important;
+            background: transparent !important;
+            display: none !important; 
         }
 
         body {
@@ -254,7 +258,7 @@
     <div class="footer">
         <p>Boom & Doom is an unofficial tool. Not affiliated with Facepunch Studios.</p>
         <p>Game assets &copy; Facepunch Studios. Data source: RustLabs.</p>
-        <p class="version-tag">Version: <span id="appVersionDisplay">...</span></p>
+        <p class="version-tag">Version: <span id="appVersionDisplay"></span></p>
     </div>
 
     <div id="updateNotification" class="update-toast">
@@ -268,7 +272,7 @@
 
 <script>
     // --- APP VERSION (Change this manually when you update sw.js) ---
-    const APP_VERSION = "v2.0.0.4"; 
+    const APP_VERSION = "v2.4"; 
     document.getElementById('appVersionDisplay').innerText = APP_VERSION;
 
     // --- TRANSLATIONS ---
