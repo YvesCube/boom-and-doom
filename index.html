@@ -396,13 +396,17 @@
                 charcoal: "Charcoal", frags: "Fragments", fuel: "LGF", pipe: "Pipe", tech: "Tech Trash", cloth: "Cloth"
             },
             targets: {
-                woodWall: "Wood Wall / Door",
+                woodDoor: "Wooden Door",
+                woodDouble: "Wood Double Door",
+                woodWall: "Wood Wall",
                 stoneWall: "Stone Wall / Foundation",
                 metalWall: "Sheet Metal Wall",
                 armoredWall: "Armored Wall",
                 sheetDoor: "Sheet Metal Door",
+                sheetDouble: "Sheet Metal Double Door",
                 garageDoor: "Garage Door",
                 armoredDoor: "Armored Door",
+                armoredDouble: "Armored Double Door",
                 highWood: "High External Wood",
                 highStone: "High External Stone"
             }
@@ -439,13 +443,17 @@
                 charcoal: "Uhlí", frags: "Fragmenty", fuel: "Palivo", pipe: "Trubka", tech: "Tech Trash", cloth: "Látka"
             },
             targets: {
-                woodWall: "Dřevěná stěna / Dveře",
+                woodDoor: "Dřevěné Dveře",
+                woodDouble: "Dřevěné Dvojité Dveře",
+                woodWall: "Dřevěná stěna",
                 stoneWall: "Kamenná stěna / Základy",
                 metalWall: "Plechová stěna (Sheet)",
                 armoredWall: "Pancéřová stěna (HQM)",
                 sheetDoor: "Plechové dveře (Sheet)",
+                sheetDouble: "Plechové Dvojité Dveře",
                 garageDoor: "Garážová vrata (Garage)",
                 armoredDoor: "Pancéřové dveře (Armored)",
+                armoredDouble: "Pancéřové Dvojité Dveře",
                 highWood: "Vysoká dřevěná zeď",
                 highStone: "Vysoká kamenná zeď"
             }
@@ -482,13 +490,17 @@
                 charcoal: "Уголь", frags: "Фрагменты", fuel: "Топлево", pipe: "Труба", tech: "Микросхемы", cloth: "Ткань"
             },
             targets: {
+                woodDoor: "Деревянная дверь",
+                woodDouble: "Деревянная двойная дверь",
                 woodWall: "Деревянная стена",
                 stoneWall: "Каменная стена",
                 metalWall: "Металлическая стена",
                 armoredWall: "МВК стена",
                 sheetDoor: "Металлическая дверь",
+                sheetDouble: "Металлическая двойная дверь",
                 garageDoor: "Гаражная дверь",
                 armoredDoor: "МВК дверь",
+                armoredDouble: "МВК двойная дверь",
                 highWood: "Высокая деревянная",
                 highStone: "Высокая каменная"
             }
@@ -525,13 +537,17 @@
                 charcoal: "木炭", frags: "金属碎片", fuel: "低级燃料", pipe: "金属管", tech: "科技零件", cloth: "布"
             },
             targets: {
-                woodWall: "木墙 / 门",
+                woodDoor: "木门",
+                woodDouble: "双扇木门",
+                woodWall: "木墙",
                 stoneWall: "石墙 / 地基",
                 metalWall: "铁墙 (Sheet)",
                 armoredWall: "合金墙 (HQM)",
                 sheetDoor: "铁门",
+                sheetDouble: "双扇铁门",
                 garageDoor: "卷帘门 (Garage)",
                 armoredDoor: "合金门",
+                armoredDouble: "双扇合金门",
                 highWood: "高外木墙",
                 highStone: "高外石墙"
             }
@@ -539,8 +555,6 @@
     };
 
     // --- CRAFTING RECIPES ---
-    // Poznámka: imgUrl jsou online odkazy. Pokud chceš offline verzi, 
-    // stáhni si obrázky do složky img/ a přepiš cesty (např. "img/rocket.png").
     const recipes = {
         rocket: { id: "rocket", sulfurTotal: 1400, gpPerItem: 650, explosivesPerItem: 10, rawSulfurToKeep: 100, imgUrl: "https://rustlabs.com/img/items180/ammo.rocket.basic.png", other: [{id:"charcoal", amount:1950},{id:"frags", amount:100},{id:"fuel", amount:30},{id:"pipe", amount:2}] },
         c4: { id: "c4", sulfurTotal: 2200, gpPerItem: 1000, explosivesPerItem: 20, rawSulfurToKeep: 200, imgUrl: "https://rustlabs.com/img/items180/explosive.timed.png", other: [{id:"charcoal", amount:3000},{id:"frags", amount:200},{id:"fuel", amount:60},{id:"tech", amount:2},{id:"cloth", amount:5}] },
@@ -551,17 +565,20 @@
         beancan: { id: "beancan", sulfurTotal: 120, gpPerItem: 60, explosivesPerItem: 0, rawSulfurToKeep: 0, imgUrl: "https://rustlabs.com/img/items180/grenade.beancan.png", other: [] }
     };
 
-    // --- RAID DATA (Updated with Images) ---
-    // Pro offline použití stáhni obrázky do složky img/ a změň cesty.
+    // --- RAID DATA (UPDATED) ---
     const raidTargets = {
+        woodDoor: { hp: 200, imgUrl: "https://rustlabs.com/img/items180/door.hinged.wood.png", methods: { satchel: 2, exp556: 19, beancan: 6, c4: 1 } },
+        woodDouble: { hp: 200, imgUrl: "https://rustlabs.com/img/items180/door.double.hinged.wood.png", methods: { satchel: 2, exp556: 19, beancan: 6, c4: 1 } },
         woodWall: { hp: 250, imgUrl: "https://rustlabs.com/img/items180/wood.png", methods: { rocket: 2, satchel: 3, exp556: 49, c4: 1 } },
         stoneWall: { hp: 500, imgUrl: "https://rustlabs.com/img/items180/stones.png", methods: { rocket: 4, satchel: 10, exp556: 185, c4: 2 } },
         metalWall: { hp: 1000, imgUrl: "https://rustlabs.com/img/items180/metal.fragments.png", methods: { rocket: 8, satchel: 23, exp556: 400, c4: 4 } },
         armoredWall: { hp: 2000, imgUrl: "https://rustlabs.com/img/items180/metal.refined.png", methods: { rocket: 15, satchel: 46, exp556: 799, c4: 8 } },
         sheetDoor: { hp: 250, imgUrl: "https://rustlabs.com/img/items180/door.hinged.metal.png", methods: { rocket: 1, satchel: 4, exp556: 63, c4: 1 } },
+        sheetDouble: { hp: 250, imgUrl: "https://rustlabs.com/img/items180/door.double.hinged.metal.png", methods: { rocket: 1, satchel: 4, exp556: 63, c4: 1 } },
         garageDoor: { hp: 600, imgUrl: "https://rustlabs.com/img/items180/wall.frame.garagedoor.png", methods: { rocket: 3, satchel: 9, exp556: 150, c4: 2 } },
         armoredDoor: { hp: 1000, imgUrl: "https://rustlabs.com/img/items180/door.hinged.toptier.png", methods: { rocket: 5, satchel: 15, exp556: 250, c4: 3 } },
-        highWood: { hp: 500, imgUrl: "https://rustlabs.com/img/items180/wall.external.high.wood.png", methods: { rocket: 3, satchel: 6, exp556: 98, c4: 2 } },
+        armoredDouble: { hp: 1000, imgUrl: "https://rustlabs.com/img/items180/door.double.hinged.toptier.png", methods: { rocket: 5, satchel: 15, exp556: 250, c4: 3 } },
+        highWood: { hp: 500, imgUrl: "https://rustlabs.com/img/items180/wall.external.high.png", methods: { rocket: 3, satchel: 6, exp556: 98, c4: 2 } },
         highStone: { hp: 500, imgUrl: "https://rustlabs.com/img/items180/wall.external.high.stone.png", methods: { rocket: 4, satchel: 10, exp556: 185, c4: 2 } }
     };
 
