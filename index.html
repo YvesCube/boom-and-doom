@@ -140,58 +140,21 @@
         /* FOOTER */
         .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #333; text-align: center; font-size: 0.75em; color: #666; line-height: 1.4; }
         .footer p { margin: 5px 0; }
-
-        /*  MOBILE OPTIMIZATION  */
-        @media (max-width: 600px) {
-            body {
-                padding: 10px; /* Menší okraj od kraje displeje */
-            }
-
-            .container {
-                padding: 15px; /* Více místa uvnitř boxu */
-                width: 100%;
-                box-sizing: border-box; /* Jistota, že padding nerozbije šířku */
-            }
-
-            h1 {
-                font-size: 1.5rem; /* Menší nadpis */
-                letter-spacing: 1px;
-            }
-
-            .app-logo {
-                width: 35px; /* Menší logo */
-                height: 35px;
-            }
-
-            .header-top {
-                margin-bottom: 15px;
-                gap: 10px;
-            }
-
-            .lang-buttons {
-                margin-top: 5px;
-            }
-
-            .flag-btn {
-                width: 28px; /* Decentnější vlaječky */
-                height: 28px;
-            }
-            
-            .flag-btn span {
-                font-size: 20px;
-            }
-
-            /* Tlačítka přes celou šířku jsou na mobilu pohodlnější */
-            input, select, .btn-group {
-                font-size: 16px; /* Zabraňuje zoomování na iPhonech */
-            }
-            
-            .raid-table th, .raid-table td {
-                padding: 8px 0; /* Kompaktnější tabulka */
-                font-size: 0.9em;
-            }
-        }
+        .version-tag { color: #444; margin-top: 10px; }
         
+        /*  MOBILE OPTIMIZATION  */
+        @media (max-width: 600px) {
+            body { padding: 10px; }
+            .container { padding: 15px; width: 100%; box-sizing: border-box; }
+            h1 { font-size: 1.5rem; letter-spacing: 1px; }
+            .app-logo { width: 35px; height: 35px; }
+            .header-top { margin-bottom: 15px; gap: 10px; }
+            .lang-buttons { margin-top: 5px; }
+            .flag-btn { width: 28px; height: 28px; }
+            .flag-btn span { font-size: 20px; }
+            input, select, .btn-group { font-size: 16px; }
+            .raid-table th, .raid-table td { padding: 8px 0; font-size: 0.9em; }
+        }
     </style>
 </head>
 <body>
@@ -280,6 +243,7 @@
     <div class="footer">
         <p>Boom & Doom is an unofficial tool. Not affiliated with Facepunch Studios.</p>
         <p>Game assets &copy; Facepunch Studios. Data source: RustLabs.</p>
+        <p class="version-tag">Version: <span id="appVersionDisplay">...</span></p>
     </div>
 
     <div id="updateNotification" class="update-toast">
@@ -292,6 +256,10 @@
 </div>
 
 <script>
+    // --- APP VERSION (Change this manually when you update sw.js) ---
+    const APP_VERSION = "v2.0.0.2"; 
+    document.getElementById('appVersionDisplay').innerText = APP_VERSION;
+
     // --- TRANSLATIONS ---
     const translations = {
         en: { tabCraft:"Crafting",tabRaid:"Raid",tabEco:"Eco / Special",selectItem:"What to craft?",enterSulfur:"Total Sulfur Amount",calculateBtn:"Calculate",resetBtn:"Reset",youCanCraft:"You can craft:",sulfurManagement:"1. Sulfur Management",otherMaterials:"2. Other Materials Needed",step1:"Take",step2:"Cook into",step3:"Keep",step4:"Use for",sulfurRaw:"Sulfur",gp:"Gunpowder",explosives:"Explosives",inInventory:"raw",leftover:"Leftover",useForAmmo:"Directly for Ammo",selectTarget:"Select Target to Destroy",selectEcoTarget:"Select Special Target",targetCountLabel:"Number of Targets",raidOptions:"Destruction Methods",ecoOptions:"Destruction Methods (Off-Meta)",method:"Weapon",ecoMethod:"Tool / Weapon",quantity:"Amount",ecoQuantity:"Amount",cost:"Total Cost",ecoCost:"Materials",items:{rocket:"Rocket",c4:"C4",hv:"HV Rocket",incen:"Incendiary Rocket",exp556:"Explosive Ammo",satchel:"Satchel Charge",beancan:"Beancan Grenade",molotov:"Molotov",hatchet:"Hatchet",pickaxe:"Pickaxe",spear:"Wooden Spear",sword:"Salvaged Sword",jackhammer:"Jackhammer",fireArrow:"Fire Arrow",charcoal:"Charcoal",frags:"Fragments",fuel:"LGF",pipe:"Pipe",tech:"Tech Trash",cloth:"Cloth",wood:"Wood"},targets:{woodDoor:"Wooden Door",woodDouble:"Wood Double Door",woodWall:"Wood Wall",stoneWall:"Stone Wall / Foundation",metalWall:"Sheet Metal Wall",armoredWall:"Armored Wall",sheetDoor:"Sheet Metal Door",sheetDouble:"Sheet Metal Double Door",garageDoor:"Garage Door",armoredDoor:"Armored Door",armoredDouble:"Armored Double Door",highWood:"High External Wood",highStone:"High External Stone",turret:"Auto Turret",sam:"SAM Site",tc:"Tool Cupboard (TC)",softWood:"Wood Wall (Soft Side)",softStone:"Stone Wall (Soft Side)",mini:"Minicopter",scrappy:"Scrap Heli",camper:"Camper Module"} },
