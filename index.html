@@ -313,9 +313,33 @@
         rocket: { id: "rocket", wb: 3, scrap: 125, sulfurTotal: 1400, gpPerItem: 650, explosivesPerItem: 10, rawSulfurToKeep: 100, imgUrl: "https://rustlabs.com/img/items180/ammo.rocket.basic.png", other: [{id:"charcoal", amount:1950},{id:"frags", amount:100},{id:"fuel", amount:30},{id:"pipe", amount:2}] },
         c4: { id: "c4", wb: 3, scrap: 500, sulfurTotal: 2200, gpPerItem: 1000, explosivesPerItem: 20, rawSulfurToKeep: 200, imgUrl: "https://rustlabs.com/img/items180/explosive.timed.png", other: [{id:"charcoal", amount:3000},{id:"frags", amount:200},{id:"fuel", amount:60},{id:"tech", amount:2},{id:"cloth", amount:5}] },
         satchel: { id: "satchel", wb: 1, scrap: 125, sulfurTotal: 480, gpPerItem: 240, explosivesPerItem: 0, rawSulfurToKeep: 0, imgUrl: "https://rustlabs.com/img/items180/explosive.satchel.png", other: [{id:"charcoal", amount:720}, {id:"frags", amount:80}, {id:"cloth", amount:10}, {id:"rope", amount:1}] },
-        exp556: { id: "exp556", wb: 3, scrap: 125, sulfurTotal: 25, gpPerItem: 10, explosivesPerItem: 0, rawSulfurToKeep: 5, imgUrl: "https://rustlabs.com/img/items180/ammo.rifle.explosive.png", other: [] }, 
+        exp556: { 
+            id: "exp556", 
+            wb: 3, 
+            scrap: 125, 
+            sulfurTotal: 25, 
+            gpPerItem: 10, 
+            explosivesPerItem: 0, 
+            rawSulfurToKeep: 5, 
+            imgUrl: "https://rustlabs.com/img/items180/ammo.rifle.explosive.png", 
+            // 1 Craft = 2 bullets. Recipe: 10 Frags + 20 GP + 10 Sulfur. 
+            // Per 1 bullet: 5 Frags + 10 GP (30 charcoal).
+            other: [{id:"frags", amount:5}, {id:"charcoal", amount:30}] 
+        }, 
         hv: { id: "hv", wb: 2, scrap: 125, sulfurTotal: 200, gpPerItem: 100, explosivesPerItem: 0, rawSulfurToKeep: 0, imgUrl: "https://rustlabs.com/img/items180/ammo.rocket.hv.png", other: [{id:"charcoal", amount:300},{id:"pipe", amount:1}] },
-        incen: { id: "incen", wb: 2, scrap: 125, sulfurTotal: 610, gpPerItem: 300, explosivesPerItem: 1, rawSulfurToKeep: 10, imgUrl: "https://rustlabs.com/img/items180/ammo.rocket.fire.png", other: [] },
+        incen: { 
+            id: "incen", 
+            wb: 2, 
+            scrap: 125, 
+            sulfurTotal: 610, 
+            gpPerItem: 300, 
+            explosivesPerItem: 1, 
+            rawSulfurToKeep: 10, 
+            imgUrl: "https://rustlabs.com/img/items180/ammo.rocket.fire.png", 
+            // 1 Exp (50 GP + 10 Sulfur + 10 Frag + 3 LGF) + 250 GP + 250 LGF + 2 Pipes
+            // Total LGF = 253. Total GP = 300 (900 Charcoal).
+            other: [{id:"charcoal", amount:900}, {id:"fuel", amount:253}, {id:"frags", amount:10}, {id:"pipe", amount:2}]
+        },
         beancan: { id: "beancan", wb: 1, scrap: 75, sulfurTotal: 120, gpPerItem: 60, explosivesPerItem: 0, rawSulfurToKeep: 0, imgUrl: "https://rustlabs.com/img/items180/grenade.beancan.png", other: [] },
         molotov: { id: "molotov", wb: 2, scrap: 75, sulfurTotal: 0, gpPerItem: 0, explosivesPerItem: 0, rawSulfurToKeep: 0, imgUrl: "https://rustlabs.com/img/items180/grenade.molotov.png", other: [{id:"cloth", amount:10},{id:"fuel", amount:50}] },
         
