@@ -6,7 +6,7 @@
 
 [**🔴 LIVE DEMO (Click here)**](https://YvesCube.github.io/boom-and-doom/)
 
-![App Screenshot]([https://via.placeholder.com/800x400?text=App+Screenshot+Coming+Soon](https://i.ibb.co/dJ1KWYNw/screen.jpg))
+![App Screenshot](https://i.ibb.co/dJ1KWYNw/screen.jpg)
 
 
 ## ✨ Features
