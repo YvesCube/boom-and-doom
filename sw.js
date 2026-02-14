@@ -1,4 +1,4 @@
-const CACHE_NAME = 'boom-doom-v1';
+const CACHE_NAME = 'boom-doom-v3';
 const ASSETS = [
   './',
   './index.html',
@@ -19,4 +19,8 @@ self.addEventListener('fetch', (e) => {
       return response || fetch(e.request);
     })
   );
+  self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
 });
