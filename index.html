@@ -7,6 +7,7 @@
     
     <meta name="description" content="Boom & Doom: Rust Raid & Crafting Calculator. Eco Raids, Tech Tree costs.">
     <meta property="og:title" content="Boom & Doom">
+    <meta property="og:description" content="Spočítej si raid. Naplánuj zkázu. Eco raid, Soft side, Vehicles.">
     <meta property="og:type" content="website">
 
     <link rel="manifest" href="manifest.json">
@@ -132,6 +133,20 @@
 
         #installBtn { display: none; width: 100%; padding: 10px; background-color: #333; color: #fff; border: 1px solid #555; border-radius: 4px; margin-bottom: 20px; cursor: pointer; text-align: center; font-size: 14px; }
         @media (min-width: 768px) { #installBtn { display: none !important; } }
+
+        /* FOOTER DISCLAIMER */
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            text-align: center;
+            font-size: 0.75em;
+            color: #666;
+            line-height: 1.4;
+        }
+        .footer p { margin: 5px 0; }
+        .footer a { color: #888; text-decoration: none; }
+        .footer a:hover { color: #ccc; }
     </style>
 </head>
 <body>
@@ -238,6 +253,11 @@
                 <tbody id="ecoTableBody"></tbody>
             </table>
         </div>
+    </div>
+
+    <div class="footer">
+        <p>Boom & Doom is an unofficial tool. Not affiliated with Facepunch Studios.</p>
+        <p>Game assets &copy; Facepunch Studios. Data source: RustLabs.</p>
     </div>
 
 </div>
