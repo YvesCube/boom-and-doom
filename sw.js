@@ -1,5 +1,5 @@
 // Změna čísla verze vynutí aktualizaci u uživatelů
-const CACHE_NAME = 'boom-doom-v2.0.0.3';
+const CACHE_NAME = 'boom-doom-v2.0.0.4';
 
 const ASSETS = [
   './',
