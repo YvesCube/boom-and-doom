@@ -26,9 +26,9 @@
             --btn-reset: #424242;
             --text-color: #e0e0e0;
             --eco-color: #4caf50;
-            --wb1: #72bb53; /* Green WB1 */
-            --wb2: #5bb0ff; /* Blue WB2 */
-            --wb3: #ff5b5b; /* Red WB3 */
+            --wb1: #72bb53; 
+            --wb2: #5bb0ff; 
+            --wb3: #ff5b5b; 
             --scrap: #a8a39d;
         }
 
@@ -123,7 +123,6 @@
         .instruction { background-color: #1a1a1a; padding: 15px; border-radius: 5px; margin-bottom: 10px; border: 1px solid #333; line-height: 1.6; }
         .instruction span { color: #ef5350; font-weight: bold; }
         
-        /* TECH TREE BADGES */
         .tech-info { display: flex; justify-content: center; gap: 10px; margin-bottom: 15px; }
         .badge { padding: 4px 8px; border-radius: 4px; font-size: 0.8em; font-weight: bold; color: #fff; text-shadow: 1px 1px 0 #000; }
         .badge-wb1 { background-color: var(--wb1); }
@@ -161,7 +160,7 @@
 
     <div id="view-craft" class="view-section active">
         <label for="itemType" id="t_selectItem">Select Item</label>
-        <select id="itemType" onchange="updateTechInfo()">
+        <select id="itemType" onchange="onCraftItemChange()">
             </select>
 
         <label for="sulfur" id="t_enterSulfur">Sulfur Amount</label>
@@ -175,8 +174,7 @@
         <div id="craftResult" class="result-box">
             <img id="resultImage" src="" alt="Item" class="item-image">
             
-            <div class="tech-info" id="techInfoDisplay">
-                </div>
+            <div class="tech-info" id="techInfoDisplay"></div>
 
             <div style="text-align: center; margin-bottom: 20px;">
                 <div id="t_youCanCraft">You can craft:</div>
@@ -321,16 +319,16 @@
         beancan: { id: "beancan", wb: 1, scrap: 75, sulfurTotal: 120, gpPerItem: 60, explosivesPerItem: 0, rawSulfurToKeep: 0, imgUrl: "https://rustlabs.com/img/items180/grenade.beancan.png", other: [] },
         molotov: { id: "molotov", wb: 2, scrap: 75, sulfurTotal: 0, gpPerItem: 0, explosivesPerItem: 0, rawSulfurToKeep: 0, imgUrl: "https://rustlabs.com/img/items180/grenade.molotov.png", other: [{id:"cloth", amount:10},{id:"fuel", amount:50}] },
         
-        // ECO TOOLS (Sulfur 0, added craft cost for Eco view)
+        // ECO TOOLS (Sulfur 0)
         hatchet: { id: "hatchet", sulfurTotal: 0, imgUrl: "https://rustlabs.com/img/items180/hatchet.png", other: [{id:"wood", amount:100}, {id:"frags", amount:75}] },
         pickaxe: { id: "pickaxe", sulfurTotal: 0, imgUrl: "https://rustlabs.com/img/items180/pickaxe.png", other: [{id:"wood", amount:100}, {id:"frags", amount:125}] },
         spear: { id: "spear", sulfurTotal: 0, imgUrl: "https://rustlabs.com/img/items180/spear.wooden.png", other: [{id:"wood", amount:300}] },
         sword: { id: "sword", sulfurTotal: 0, imgUrl: "https://rustlabs.com/img/items180/salvaged.sword.png", other: [{id:"frags", amount:15}, {id:"blade", amount:1}] },
         jackhammer: { id: "jackhammer", sulfurTotal: 0, imgUrl: "https://rustlabs.com/img/items180/jackhammer.png", other: [] }, // Cannot craft
-        fireArrow: { id: "fireArrow", sulfurTotal: 0, imgUrl: "https://rustlabs.com/img/items180/arrow.fire.png", other: [{id:"cloth", amount:2}, {id:"fuel", amount:2}] } // Simplified
+        fireArrow: { id: "fireArrow", sulfurTotal: 0, imgUrl: "https://rustlabs.com/img/items180/arrow.fire.png", other: [{id:"cloth", amount:2}, {id:"fuel", amount:2}] } 
     };
 
-    // --- RAID DATA (Added Molotovs, Turret, SAM, Removed Tugboat) ---
+    // --- RAID DATA ---
     const raidTargets = {
         woodDoor: { hp: 200, imgUrl: "https://rustlabs.com/img/items180/door.hinged.wood.png", methods: { satchel: 2, molotov: 2, exp556: 19, beancan: 6, c4: 1 } },
         woodDouble: { hp: 200, imgUrl: "https://rustlabs.com/img/items180/door.double.hinged.wood.png", methods: { satchel: 2, molotov: 2, exp556: 19, beancan: 6, c4: 1 } },
@@ -355,8 +353,8 @@
         softWood: { imgUrl: "https://rustlabs.com/img/items180/wood.png", methods: { spear: 24, sword: 6, hatchet: 4 } },
         softStone: { imgUrl: "https://rustlabs.com/img/items180/stones.png", methods: { pickaxe: 7, jackhammer: 2, spear: 236 } },
         mini: { imgUrl: "https://rustlabs.com/img/items180/minicopter.png", methods: { hv: 2, exp556: 121, fireArrow: 65, rocket: 1 } },
-        scrappy: { imgUrl: "https://rustlabs.com/img/items180/scraptransporthelicopter.png", methods: { hv: 3, rocket: 2, exp556: 200 } },
-        camper: { imgUrl: "https://rustlabs.com/img/items180/vehicle.1mod.camper.png", methods: { rocket: 2, satchel: 10, c4: 1 } }
+        scrappy: { imgUrl: "https://wiki.rustclash.com/img/screenshots/scrap-heli.png", methods: { hv: 3, rocket: 2, exp556: 200 } },
+        camper: { imgUrl: "https://wiki.rustclash.com/img/items180/vehicle.2mod.camper.png", methods: { rocket: 2, satchel: 10, c4: 1 } }
     };
 
     let currentLang = "en";
@@ -423,14 +421,14 @@
         const savedVal = select.value;
         select.innerHTML = "";
         for (const [key, value] of Object.entries(recipes)) {
-            // Only craftable items (has scrap cost defined)
-            if(value.scrap === undefined) continue; 
+            // Only show items with sulfur cost > 0 for crafting tab
+            if(key === 'beancan' || value.sulfurTotal === 0) continue; 
             const opt = document.createElement('option');
             opt.value = key;
             opt.innerText = t.items[value.id] || value.id;
             select.appendChild(opt);
         }
-        if (savedVal && recipes[savedVal] && recipes[savedVal].scrap) select.value = savedVal;
+        if (savedVal && recipes[savedVal] && recipes[savedVal].sulfurTotal > 0) select.value = savedVal;
         updateTechInfo();
     }
 
@@ -473,6 +471,13 @@
             <span class="badge ${wbClass}">${wbText}</span>
             <span class="badge badge-scrap">${recipe.scrap} Scrap</span>
         `;
+    }
+
+    function onCraftItemChange() {
+        updateTechInfo();
+        if(document.getElementById('craftResult').style.display === 'block') {
+            calculateCraft();
+        }
     }
 
     function resetCraft() {
