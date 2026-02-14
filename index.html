@@ -5,11 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Boom & Doom</title>
     
-    <meta name="description" content="Boom & Doom: Rust Raid & Crafting Calculator.">
+    <meta name="description" content="Boom & Doom: Rust Raid & Crafting Calculator. Eco Raids, Tech Tree costs.">
+    <meta property="og:title" content="Boom & Doom">
+    <meta property="og:description" content="Spočítej si raid. Naplánuj zkázu. Eco raid, Soft side, Vehicles.">
+    <meta property="og:type" content="website">
+
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#8a1c1c">
     <link rel="icon" type="image/png" href="img/icon-192.png">
     <link rel="apple-touch-icon" href="img/icon-192.png">
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.11.0/css/flag-icons.min.css"/>
     
     <link rel="stylesheet" href="style.css">
@@ -41,20 +46,26 @@
     <div id="view-craft" class="view-section active">
         <label for="itemType" id="t_selectItem">Select Item</label>
         <select id="itemType" onchange="onCraftItemChange()"></select>
+        
         <label for="sulfur" id="t_enterSulfur">Sulfur Amount</label>
         <input type="number" id="sulfur" placeholder="50000">
+        
         <div class="btn-group">
             <button onclick="calculateCraft()" id="t_calculateBtn" class="calc-btn">Calculate</button>
             <button onclick="resetCraft()" id="t_resetBtn" class="reset-btn">Reset</button>
         </div>
+
         <div id="craftResult" class="result-box">
             <img id="resultImage" src="" alt="Item" class="item-image">
+            
             <div class="tech-info" id="techInfoDisplay"></div>
+
             <div style="text-align: center; margin-bottom: 20px;">
                 <div id="t_youCanCraft">You can craft:</div>
                 <div id="finalCount" class="big-number">0</div>
                 <div id="itemNameDisplay" style="color:#aaa;"></div>
             </div>
+
             <div class="section-title" id="t_sulfurManagement">1. Sulfur Management</div>
             <div class="instruction">
                 <span id="t_step1">Take</span> <span id="sulfurToGP">0</span> <span id="t_sulfurRaw">Sulfur</span>.<br>
@@ -64,6 +75,7 @@
                 <span id="t_step3">Keep</span> <span id="sulfurToKeep">0</span> <span id="t_sulfurRaw2">Sulfur</span> <span id="t_inInventory">raw in inventory</span>.<br>
                 <span id="t_step4">Use it to craft</span> <span id="expCount">0</span> <span id="expLabel">Explosives</span>.
             </div>
+
             <div class="section-title" id="t_otherMaterials">2. Other Materials Needed</div>
             <ul id="materialsList"></ul>
         </div>
@@ -72,13 +84,21 @@
     <div id="view-raid" class="view-section">
         <label id="t_selectTarget">Select Target</label>
         <select id="targetType" onchange="calculateRaid()"></select>
+        
         <label id="t_targetCountLabel">Number of Targets</label>
         <input type="number" id="targetCount" value="1" min="1" oninput="calculateRaid()">
+        
         <div id="raidResult" class="result-box" style="display:block;">
             <img id="raidTargetImage" src="" alt="Target" class="item-image" style="display:none;">
             <div class="section-title" id="t_raidOptions">Recommended Methods</div>
             <table class="raid-table">
-                <thead><tr><th id="t_method">Method</th><th id="t_quantity">Amount</th><th id="t_cost">Cost</th></tr></thead>
+                <thead>
+                    <tr>
+                        <th id="t_method">Method</th>
+                        <th id="t_quantity">Amount</th>
+                        <th id="t_cost">Cost</th>
+                    </tr>
+                </thead>
                 <tbody id="raidTableBody"></tbody>
             </table>
         </div>
@@ -87,27 +107,27 @@
     <div id="view-eco" class="view-section">
         <label id="t_selectEcoTarget">Select Special Target</label>
         <select id="ecoTargetType" onchange="calculateEco()"></select>
+        
         <div id="ecoResult" class="result-box" style="display:block; border-color: #4caf50;">
             <img id="ecoTargetImage" src="" alt="Target" class="item-image" style="display:none;">
             <div class="section-title" id="t_ecoOptions">Destruction Methods</div>
             <table class="raid-table">
-                <thead><tr><th id="t_ecoMethod">Method</th><th id="t_ecoQuantity">Amount</th><th id="t_ecoCost">Materials Needed</th></tr></thead>
+                <thead>
+                    <tr>
+                        <th id="t_ecoMethod">Method</th>
+                        <th id="t_ecoQuantity">Amount</th>
+                        <th id="t_ecoCost">Materials Needed</th>
+                    </tr>
+                </thead>
                 <tbody id="ecoTableBody"></tbody>
             </table>
         </div>
     </div>
-    
+
     <div id="customModal" class="modal-overlay">
         <div class="modal-content">
             <p id="modalMessage">Error message here</p>
             <button class="modal-btn" onclick="closeModal()">OK</button>
-        </div>
-    </div>
-
-    <div id="updateNotification" class="update-toast">
-        <div class="update-content">
-            <span id="t_updateText">New version available!</span>
-            <button id="updateBtn">Update Now</button>
         </div>
     </div>
 
@@ -119,7 +139,7 @@
 
     <div id="updateNotification" class="update-toast">
         <div class="update-content">
-            <span>New version available!</span>
+            <span id="t_updateText">New version available!</span>
             <button id="updateBtn">Update Now</button>
         </div>
     </div>
@@ -127,5 +147,6 @@
 </div>
 
 <script src="script.js"></script>
+
 </body>
 </html>
